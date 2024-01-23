@@ -7,6 +7,7 @@ export default function Cart() {
   const [products, setProducts] = useState([]);
   const [cost, setCost] = useState({});
   const [cartId, setCartId] = useState(null);
+  const [checkoutUrl, setCheckoutUrl] = useState(null);
 
   useEffect(() => {
     const localCart = window.localStorage.getItem('astroCartId');
@@ -31,6 +32,7 @@ export default function Cart() {
         .then((response) => {
           setProducts(response.cart.lines.edges);
           setCost(response.cart.estimatedCost);
+          setCheckoutUrl(response.cart.checkoutUrl);
           return response;
         });
     }
@@ -46,6 +48,9 @@ export default function Cart() {
             removeItem={setProducts}
           />
           <CartTotal cost={cost} />
+          <div><a href={checkoutUrl} className="cart cartLink">
+              Checkout
+            </a></div>
         </div>
       ) : (
         <div className="cart-page-message">
