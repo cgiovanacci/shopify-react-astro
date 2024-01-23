@@ -113,7 +113,7 @@ export default function ProductPageContent({ product }) {
           <button onClick={handleAddToCart}>Add to Cart</button>
         ) : (
           <button className="disabled" disabled>
-            Out of Stock
+            Out of Stock! and this code is crap
           </button>
         )}
       </div>
