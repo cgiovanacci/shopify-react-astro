@@ -4,18 +4,22 @@ import Footer from '../../components/Footer.astro'
 import ProductPageContent from '../../components/ProductPageContent.jsx';
 
 export async function getStaticPaths() {
-  let products = await fetch(`${import.meta.env.NETLIFY_URL}/.netlify/functions/get-product-list`)
-    .then(res => res.json()).then((response) => {
-      console.log('--- built product pages ---')
-      return response.products.edges
+  try {
+    let products = await fetch(`${import.meta.env.NETLIFY_URL}/.netlify/functions/get-product-list`)
+      .then(res => res.json()).then((response) => {
+        console.log('--- built product pages ---')
+        return response.products.edges
+      });
+  
+    return products.map((p, i) => {
+      return {
+        params: {pid: p.node.handle},
+        props: {product: p},
+      };
     });
+  } catch(err) {
 
-  return products.map((p, i) => {
-    return {
-      params: {pid: p.node.handle},
-      props: {product: p},
-    };
-  });
+  }
 }
 
 const { product } = Astro.props;
