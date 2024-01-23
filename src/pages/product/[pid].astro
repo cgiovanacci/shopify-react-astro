@@ -5,12 +5,9 @@ import ProductPageContent from '../../components/ProductPageContent.jsx';
 
 export async function getStaticPaths() {
   try {
-    let products = await fetch(`${import.meta.env.NETLIFY_URL}/.netlify/functions/get-product-list`)
-      .then(res => res.json()).then((response) => {
-        console.log('--- built product pages ---')
-        return response.products.edges
-      });
-  
+    let res = await fetch(`${import.meta.env.NETLIFY_URL}/.netlify/functions/get-product-list`);
+    let response = await res.json();
+    let products = response.products.edges;
     return products.map((p, i) => {
       return {
         params: {pid: p.node.handle},
